@@ -1,0 +1,11 @@
+{
+    "name": "aws-build-badges",
+    "version": "0.1.0",
+    "author": "Meir Gabay <unfor19@gmail.com>",
+    "dependencies": {
+        "text-to-svg": "^3.1.5"
+    },
+    "scripts": {
+        "addlayer": "yarn install --modules-folder ./node_modules"
+    }
+}

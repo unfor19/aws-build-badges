@@ -1,0 +1,109 @@
+service: "${self:custom.appname}-badges"
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+# This is super important since we're packing this with zip and not with `serverless package`
+package:
+  individually: true
+
+# Copy serverless.vars.yml to .serverless.vars.yml
+custom: ${file(.serverless.vars.yml):vars}
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  memorySize: 192 # after a lot of testing, this seems to fit best
+  stage: "${opt:stage}"
+  region: "${self:custom.region.${self:provider.stage}}"
+  environment:
+    BUCKET_BADGES: ${self:custom.bucket_badges.${self:provider.stage}, "${self:service}-images-${self:provider.stage}"}
+  deploymentBucket:
+    name: ${self:custom.deployment_bucket.${self:provider.stage}, "${self:service}-deployment-${self:provider.stage}"}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:PutObjectAcl
+      Resource: "arn:aws:s3:::${self:provider.environment.BUCKET_BADGES}/*"
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: "arn:aws:logs:*:*:*"
+
+# layers:
+#   textToSvg:
+#     path: layers/text-to-svg/
+#     compatibleRuntimes:
+#       - nodejs10.x
+#     package:
+#       include:
+#         - nodejs/**
+
+functions:
+  uploadBadge:
+    handler: index.handler
+    package:
+      artifact: dist/dist.zip
+    # layers:
+    #   - { Ref: TextToSvgLambdaLayer }
+    events:
+      - cloudwatchEvent:
+          name: "${self:service}-build-event-${opt:stage}"
+          description: "Triggered upon status change of CodeBuild project"
+          event:
+            source:
+              - "aws.codebuild"
+            detail-type:
+              - "CodeBuild Build State Change"
+            detail:
+              project-name: ${self:custom.codebuild_projects.${opt:stage}}
+      - cloudwatchEvent:
+          name: "${self:service}-pipeline-event-${opt:stage}"
+          description: "Triggered upon status change of CodePipeline"
+          event:
+            source:
+              - "aws.codepipeline"
+            detail-type:
+              - "CodePipeline Pipeline Execution State Change"
+            detail:
+              pipeline: ${self:custom.codepipeline_names.${opt:stage}}
+
+resources:
+  Resources:
+    BuildBadgesImagesBucket:
+      Type: "AWS::S3::Bucket"
+      DeletionPolicy: Retain
+      Properties:
+        BucketName: !Sub "${self:service}-images-${opt:stage}"
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - "GET"
+                - "HEAD"
+              AllowedOrigins:
+                - "https://github.com"
+                - "https://www.github.com"
+              MaxAge: 90
+
+    BuildBadgesImagesBucketPolicy:
+      DependsOn: BuildBadgesImagesBucket
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: "BuildBadgesImagesBucketPolicy-${opt:stage}"
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: "*"
+              Action: s3:GetObject
+              Resource: "arn:aws:s3:::${self:service}-images-${opt:stage}/*"
+        Bucket:
+          Ref: BuildBadgesImagesBucket

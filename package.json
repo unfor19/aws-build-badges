@@ -1,0 +1,61 @@
+{
+  "name": "aws-build-badges",
+  "version": "0.1.0",
+  "author": "Meir Gabay <unfor19@gmail.com>",
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-typescript": "^7.7.2",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.9",
+    "@typescript-eslint/eslint-plugin": "^2.8.0",
+    "@typescript-eslint/parser": "^2.8.0",
+    "aws-sdk": "2.578",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.7.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "fs": "^0.0.1-security",
+    "husky": ">=1",
+    "jest": "^24.9.0",
+    "libxmljs": "^0.19.7",
+    "lint-staged": ">=8",
+    "prettier": "^1.19.1",
+    "text-to-svg": "^3.1.5",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.5.2",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "test:vault": "export $(cat .env) && aws-vault exec ${VAULT_PROFILE_TESTING} -- jest --detectOpenHandles",
+    "test:aws": "jest --detectOpenHandles",
+    "build": "echo 'Start building package' ... && rm -rf build && echo 'Linting ts files'; eslint src/*.ts --fix && echo 'Compiling ts files to js';tsc -p tsconfig.json && echo 'Linting js files';eslint dist/*.js --fix && cp -r ./src/badges dist/badges && cd dist; zip -r dist.zip *",
+    "deploy:vault-dev": "export $(cat .env) && aws-vault exec ${VAULT_PROFILE_DEV} -- sls deploy --verbose --stage=dev",
+    "deploy:vault-staging": "export $(cat .env) && aws-vault exec ${VAULT_PROFILE_STAGING} -- sls deploy --verbose --stage=staging",
+    "deploy:vault-prod": "export $(cat .env) && aws-vault exec ${VAULT_PROFILE_PROD} -- sls deploy --verbose --stage=prod",
+    "deploy:dev": "sls deploy --verbose --stage=dev",
+    "deploy:staging": "sls deploy --verbose --stage=staging",
+    "deploy:prod": "sls deploy --verbose --stage=prod",
+    "destroy:vault-dev": "export $(cat .env) && aws-vault exec ${VAULT_PROFILE_DEV} -- sls remove --verbose --stage=dev",
+    "destroy:vault-staging": "export $(cat .env) && aws-vault exec ${VAULT_PROFILE_STAGING} -- sls remove --verbose --stage=staging",
+    "destroy:vault-prod": "export $(cat .env) && aws-vault exec ${VAULT_PROFILE_PROD} -- sls remove --verbose --stage=prod",
+    "destroy:dev": "sls remove --verbose --stage=dev",
+    "destroy:staging": "sls remove --verbose --stage=staging",
+    "destroy:prod": "sls remove --verbose --stage=prod"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}

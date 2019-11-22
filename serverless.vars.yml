@@ -1,0 +1,39 @@
+# Find and replace "myapp" with your application's name
+# And of course do whatever changes you need so it fits your infrastructure
+vars:
+  appname: "myapp"
+  region:
+    dev: eu-west-2
+    staging: eu-west-2
+    prod: eu-west-2
+  codebuild_projects:
+    dev:
+      - "myapp-CodeBuild-api-${opt:stage}"
+      - "myapp-CodeBuildDeploy-api-${opt:stage}"
+      - "myapp-CodeBuild-ui-${opt:stage}"
+    staging:
+      - "myapp-CodeBuild-api-${opt:stage}"
+      - "myapp-CodeBuildDeploy-api-${opt:stage}"
+      - "myapp-CodeBuild-ui-${opt:stage}"
+    prod:
+      - "myapp-CodeBuild-api-${opt:stage}"
+      - "myapp-CodeBuildDeploy-api-${opt:stage}"
+      - "myapp-CodeBuild-ui-${opt:stage}"
+  codepipeline_names:
+    dev:
+      - "myapp-CodePipeline-api-${opt:stage}"
+      - "myapp-CodePipeline-ui-${opt:stage}"
+    staging:
+      - "myapp-CodePipeline-api-${opt:stage}"
+      - "myapp-CodePipeline-ui-${opt:stage}"
+    prod:
+      - "myapp-CodePipeline-api-${opt:stage}"
+      - "myapp-CodePipeline-ui-${opt:stage}"
+  deployment_bucket:
+    dev: "${self:service}-deployment-${self:provider.stage}"
+    staging: "${self:service}-deployment-${self:provider.stage}"
+    prod: "${self:service}-deployment-${self:provider.stage}"
+  bucket_badges:
+    dev: "${self:service}-images-${self:provider.stage}"
+    staging: "${self:service}-images-${self:provider.stage}"
+    prod: "${self:service}-images-${self:provider.stage}"

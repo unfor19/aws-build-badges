@@ -1,0 +1,5 @@
+BUCKET_BADGES=myapp-bucket-for-testing
+VAULT_PROFILE_TESTING=myapp-dev
+VAULT_PROFILE_DEV=myapp-dev
+VAULT_PROFILE_STAGING=myapp-staging
+VAULT_PROFILE_PROD=myapp-prod
