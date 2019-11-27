@@ -1,0 +1,5 @@
+#!/bin/bash
+ROOTDIR="${PWD}"
+servicesFolders=$(find ./services -maxdepth 1 -type d -exec bash -c '[ -f "$0"/package.json ] && [ -f "$0"/yarn.lock ]' '{}' \; -print | sort)
+echo "Building the following services:" ; echo "$servicesFolders"
+for folder in ${servicesFolders}; do cd $folder; echo ">> Building $folder"; yarn install ; cd "${ROOTDIR}"; done

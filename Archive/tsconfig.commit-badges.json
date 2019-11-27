@@ -5,14 +5,20 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "target": "es5",
-    "outDir": "dist",
+    "outDir": "dist/",
     "moduleResolution": "node",
     "lib": [
       "es2015"
-    ],
-    "rootDir": "./src"
+    ]
   },
   "exclude": [
-    "**/*.test.ts"
+    "src/timestamp-badges",
+    "src/status-badges",
+    "**/*.test.ts",
+    "node_modules",
+    "layers",
+    "dist",
+    ".vscode",
+    ".serverless"
   ]
 }

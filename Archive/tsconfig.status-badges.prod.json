@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "noImplicitAny": false,
+        "preserveConstEnums": true,
+        "strictNullChecks": true,
+        "sourceMap": true,
+        "target": "es5",
+        "outDir": "dist/",
+        "outFile": "dist/status-badges/status-badges.final.js",
+        "moduleResolution": "node",
+        "lib": [
+            "es2015"
+        ]
+    },
+    "files": [
+        "./src/status-badges/index.ts"
+    ],
+    "exclude": [
+        "src/timestamp-badges",
+        "src/commit-badges",
+        "**/*.test.ts",
+        "node_modules",
+        "layers",
+        "dist",
+        ".vscode",
+        ".serverless"
+    ]
+}

@@ -1,0 +1,14 @@
+#!/bin/bash
+ROOTDIR="${PWD}"
+echo 'Building commit-badges package' ; rm -rf "${ROOTDIR}/dist/commit-badges" "${ROOTDIR}/dist/shared" \
+&& echo 'Linting shared ts files'; eslint "${ROOTDIR}/src/shared/*.ts" --fix \
+&& echo 'Linting ts files'; eslint "${ROOTDIR}/src/commit-badges/*.ts" --fix \
+&& echo 'Compiling ts files to js';tsc -p "${ROOTDIR}/tsconfig.commit-badges.json" \
+&& echo 'Linting shared js files'; eslint "${ROOTDIR}/dist/shared/*.js" --fix \
+&& echo 'Linting package js files'; eslint "${ROOTDIR}/dist/commit-badges/*.js" --fix \
+&& echo 'Creating temp folder'; mkdir -p "${ROOTDIR}/dist/_commit-badges" \
+&& echo 'Copying package to temp folder'; cp -r "${ROOTDIR}/dist/commit-badges" "${ROOTDIR}/dist/_commit-badges" \
+&& echo 'Copying shared to temp folder'; cp -r "${ROOTDIR}/dist/shared" "${ROOTDIR}/dist/_commit-badges" \
+&& echo 'Zipping package' ; cd "${ROOTDIR}/dist/_commit-badges" > /dev/null && zip -r "${ROOTDIR}/dist/commit-badges/dist_commit_badges.zip" * > /dev/null \
+&& echo 'Cleaning up ...' ; rm -rf "${ROOTDIR}/dist/_commit-badges" \
+|| cd "${ROOTDIR}"

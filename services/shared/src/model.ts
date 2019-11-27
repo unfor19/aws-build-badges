@@ -1,6 +1,6 @@
-import { S3 } from 'aws-sdk';
-import { isBucketNameValid } from './controller';
+const S3 = require('aws-sdk/clients/s3');
 const s3 = new S3({ apiVersion: '2006-03-01', region: process.env.AWS_REGION });
+import { isBucketNameValid } from './controller';
 
 export class BaseS3Object {
     private _Bucket: string;
@@ -67,14 +67,14 @@ export class BaseS3Object {
         const params = my_obj.serialize();
         var putObjectPromise = s3.putObject(params).promise();
         return putObjectPromise
-            .then(function(data) {
-                console.log('Success', data);
+            .then(function (data: { ETag: any; }) {
+                // console.log('Success', data);
                 my_obj.ETag = data.ETag;
                 return data.ETag;
             })
-            .catch(function(err) {
+            .catch(function (err: any) {
                 const errorMessage = `Failed to upload SVG to S3: ${err}`;
-                console.log(errorMessage);
+                // console.log(errorMessage);
                 return errorMessage;
             });
     }

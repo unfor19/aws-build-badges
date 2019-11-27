@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "outDir": "./dist/",
+    "allowJs": true
+  },
+  "exclude": [
+    "src/timestamp-badges",
+    "src/commit-badges",
+    "**/*.test.ts",
+    "node_modules",
+    "layers",
+    "dist",
+    ".vscode",
+    ".serverless"
+  ]
+}

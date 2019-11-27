@@ -1,0 +1,15 @@
+#!/bin/bash
+ROOTDIR="${PWD}"
+echo 'Building status-badges package' ; rm -rf "${ROOTDIR}/dist/status-badges" "${ROOTDIR}/dist/shared" \
+&& echo 'Linting shared ts files'; eslint "${ROOTDIR}/src/shared/*.ts" --fix \
+&& echo 'Linting ts files'; eslint "${ROOTDIR}/src/status-badges/*.ts" --fix \
+&& echo 'Compiling ts files to js';tsc -p "${ROOTDIR}/tsconfig.status-badges.json" \
+&& echo 'Linting shared js files'; eslint "${ROOTDIR}/dist/shared/*.js" --fix \
+&& echo 'Linting package js files'; eslint "${ROOTDIR}/dist/status-badges/*.js" --fix \
+&& echo 'Copying badges from src to dist'; cp -r "${ROOTDIR}/src/status-badges/badges" "${ROOTDIR}/dist/status-badges/badges" \
+&& echo 'Creating temp folder'; mkdir -p "${ROOTDIR}/dist/_status-badges" \
+&& echo 'Copying package to temp folder'; cp -r "${ROOTDIR}/dist/status-badges" "${ROOTDIR}/dist/_status-badges" \
+&& echo 'Copying shared to temp folder'; cp -r "${ROOTDIR}/dist/shared" "${ROOTDIR}/dist/_status-badges" \
+&& echo 'Zipping package' ; cd "${ROOTDIR}/dist/_status-badges" > /dev/null && zip -r "${ROOTDIR}/dist/status-badges/dist_status_badges.zip" * > /dev/null \
+&& echo 'Cleaning up ...' ; rm -rf "${ROOTDIR}/dist/_status-badges" \
+|| cd "${ROOTDIR}"
