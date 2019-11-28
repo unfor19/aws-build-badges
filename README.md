@@ -33,7 +33,7 @@ Use the files [README.md.api.html](README.md.api.html) and [README.md.ui.html](R
     ```
 1.  Install application dependencies
     ```
-    yarn install
+    yarn installDeps
     ```
 1.  Create a bucket for serverless deployments, and name it: `myapp-badges-deployment-STAGE`,
     where myapp is your app's name
