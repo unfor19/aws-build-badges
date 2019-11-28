@@ -4,7 +4,7 @@ The badges are uploaded to S3 bucket, and then you can link to those badges (SVG
 AWS has some weird limitation where it's not possible to have a build badge when the source is CodePipeline, it simply doesn't work.
 
 Use the files [README.md.api.html](README.md.api.html) and [README.md.ui.html](README.md.ui.html) to add the proper HTML code to your README.md<br>
-*Note*: In case you wonder what's `?dummy=null`, it helps avoiding from letting GitHub caching your images.
+*Note*: In case you wonder what's `?dummy=null`, it helps avoiding from letting GitHub to cache your images (badges).
 
 ![Example](./assets/aws-build-badges-example.png)
 
