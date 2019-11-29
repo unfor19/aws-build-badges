@@ -2,7 +2,7 @@ service: "${self:custom.appname}-badges"
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 
-# This is super important since we're packing this with zip and not with `serverless package`
+# This is super important since we're packing this with Webpack and not with `serverless package`
 package:
   individually: true
 
