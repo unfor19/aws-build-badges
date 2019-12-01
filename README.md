@@ -94,7 +94,7 @@ Done in 193.59s.
 1. **Issue**: Failed to get credentials for jest
    - **Solution**: Set the `VAULT_PROFILE_TESTING` variable in `.env`
    
-## Tested on OS
+## Tested on
 <table>
 	<thead>
 		<th>OS</th>
