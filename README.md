@@ -10,6 +10,7 @@ Use the files [README.md.api.html](README.md.api.html) and [README.md.ui.html](R
 
 ## Technology stack
 1. [NodeJS 10.x](https://aws.amazon.com/about-aws/whats-new/2019/05/aws_lambda_adds_support_for_node_js_v10/) - AWS Lambda supports this version of NodeJS
+1. [AWS SDK for JavaScript](https://aws.amazon.com/sdk-for-node-js/) - To upload status badges to S3 bucket, and get commit-id from pipeline
 1. [yarn](https://yarnpkg.com/lang/en/) - package manager (instead of npm)
 1. [TypeScript 3.7](https://www.typescriptlang.org/) - targeting ES5
 1. [ESLint](https://eslint.org/) - Linting TypeScript (src) and JavaScript (dist) files
