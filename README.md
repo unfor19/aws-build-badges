@@ -77,6 +77,9 @@ yarn destroy:aws-STAGE   - Destroy stack using AWS credentials and profiles
 
 ## Usage
 ```
+(aws-build-badges) $: yarn build:prod
+...
+Done in 10.55s.
 (aws-build-badges) $: yarn deploy:vault-prod
 yarn run v1.19.1
 $ yarn build:prod && export $(cat .env) && aws-vault exec ${VAULT_PROFILE_PROD} -- sls deploy --verbose --stage=prod
@@ -94,7 +97,8 @@ Done in 193.59s.
    - **Solution**: Set the `BUCKET_BADGES` variable in `.env`
 1. **Issue**: Failed to get credentials for jest
    - **Solution**: Set the `VAULT_PROFILE_TESTING` variable in `.env`
-   
+1. **Issue**: (node:#####) DeprecationWarning: Tapable.plugin is deprecated. Use new API on `.hooks` instead
+   - **Solution**: You can ignore this warning - [details](https://stackoverflow.com/a/49971434/5285732)
 ## Tested on
 <table>
 	<thead>
