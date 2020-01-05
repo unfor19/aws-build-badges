@@ -70,5 +70,8 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "dependencies": {
+    "serialize-javascript": "^2.1.1"
   }
 }
