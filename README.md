@@ -1,14 +1,34 @@
 # aws-build-badges
 Create status-badges and commit-id badges according to CodeBuild/CodePipeline states.<br>
 The badges are uploaded to S3 bucket, and then you can link to those badges (SVG files) in your README.md<br>
-AWS has some weird limitation where it's not possible to have a build badge when the source is CodePipeline, [it simply doesn't work](https://forums.aws.amazon.com/message.jspa?messageID=867736#867736).
-
-Use the files [README.md.api.html](README.md.api.html) and [README.md.ui.html](README.md.ui.html) to add the proper HTML code to your README.md<br>
-*Note*: In case you wonder what's `?dummy=null`, it helps to avoid from letting GitHub cache your images (badges).
 
 ![Example](./assets/aws-build-badges-example.png)
 
-## Technology stack
+## Getting Started
+### Prerequisites
+1. You have at least one CodeBuild project and/or at least one CodePipeline.
+1. You're going to launch this app in the same region your CodeBuild projects and CodePipelines are
+1. Yup, that's it, no installation no nothing
+
+## Deployment
+### Quick Deployment
+[![Launch in Virginia](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png) Virginia us-east-1](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml)
+
+
+[![Launch in Ireland](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png) Ireland eu-west-1](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/quickcreate?templateURL=https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml)
+
+
+[![Launch in Hong Kong](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png) Hong Kong ap-east-1](https://ap-east-1.console.aws.amazon.com/cloudformation/home?region=ap-east-1#/stacks/quickcreate?templateURL=https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml)
+
+
+[![Launch in Canada](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png) Canada ca-central-1](https://ca-central-1.console.aws.amazon.com/cloudformation/home?region=ca-central-1#/stacks/quickcreate?templateURL=https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml)
+
+Not using any of the regions above? Go ahead and deploy with a template
+
+### Deploy with a template
+Download the cloudformation template [from here](https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml) and upload it manually to a specific region.
+
+## Built With
 1. [NodeJS 10.x](https://aws.amazon.com/about-aws/whats-new/2019/05/aws_lambda_adds_support_for_node_js_v10/) - AWS Lambda supports this version of NodeJS
 1. [AWS SDK for JavaScript](https://aws.amazon.com/sdk-for-node-js/) - Upload status badges to S3 bucket, and get commit-id from pipeline
 1. [yarn](https://yarnpkg.com/lang/en/) - package manager (instead of npm)
@@ -77,9 +97,6 @@ yarn destroy:aws-STAGE   - Destroy stack using AWS credentials and profiles
 
 ## Usage
 ```
-(aws-build-badges) $: yarn build:prod
-...
-Done in 10.55s.
 (aws-build-badges) $: yarn deploy:vault-prod
 yarn run v1.19.1
 $ yarn build:prod && export $(cat .env) && aws-vault exec ${VAULT_PROFILE_PROD} -- sls deploy --verbose --stage=prod
