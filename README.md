@@ -23,7 +23,7 @@ Use the files [README.md.api.html](README.md.api.html) and [README.md.ui.html](R
 [![Launch in Canada](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png) Canada ca-central-1](https://ca-central-1.console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks/quickcreate?templateURL=https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml)
 
 
-Or, download the cloudformation template - https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml and upload it manually.
+Or, download the cloudformation template [from here](https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml) and upload it manually to a specific region.
 
 ## Technology stack
 1. [NodeJS 10.x](https://aws.amazon.com/about-aws/whats-new/2019/05/aws_lambda_adds_support_for_node_js_v10/) - AWS Lambda supports this version of NodeJS
