@@ -77,9 +77,6 @@ yarn destroy:aws-STAGE   - Destroy stack using AWS credentials and profiles
 
 ## Usage
 ```
-(aws-build-badges) $: yarn build:prod
-...
-Done in 10.55s.
 (aws-build-badges) $: yarn deploy:vault-prod
 yarn run v1.19.1
 $ yarn build:prod && export $(cat .env) && aws-vault exec ${VAULT_PROFILE_PROD} -- sls deploy --verbose --stage=prod
