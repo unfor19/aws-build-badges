@@ -1,0 +1,10 @@
+{
+    "name": "aws-build-badges-generate-links",
+    "version": "0.1.0",
+    "author": "Meir Gabay <unfor19@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "aws-sdk": "^2.599.0",
+        "cfn-response": "^1.0.1"
+    }
+}

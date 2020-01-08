@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: The AWS CloudFormation template for this Serverless application
+
+Resources:
+    CreateLinks:
+        Type: Custom::MacroFilesLinks
+        Properties:
+            ServiceToken: !GetAtt 'MacroFilesLinks.Arn'
+    MacroFilesLinksRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumeRolePolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                    - Effect: Allow
+                      Principal:
+                          Service: lambda.amazonaws.com
+                      Action: sts:AssumeRole
+            ManagedPolicyArns:
+                - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+            Path: /
+            Policies:
+                - PolicyName: lambda-copier
+                  PolicyDocument:
+                      Version: '2012-10-17'
+                      Statement:
+                          - Effect: Allow
+                            Action: '*'
+                            Resource: '*'
+
+    MacroFilesLinks:
+        Type: AWS::Lambda::Function
+        Properties:
+            Description: Generates links to the svg files
+            Handler: index.handler
+            Runtime: nodejs12.x
+            Role: !GetAtt 'MacroFilesLinksRole.Arn' # TODO: create role
+            Timeout: 30
+            Code:
+                ZipFile: |
+                    var aws = require('aws-sdk')
+                    var response = require('cfn-response')
+                    exports.handler = function(event, context) {
+                        console.log("REQUEST RECEIVED:\n" + JSON.stringify(event))
+                        // For Delete requests, immediately send a SUCCESS response.
+                        if (event.RequestType == "Delete") {
+                            response.send(event, context, "SUCCESS")
+                            return
+                        }
+                        var responseStatus = "FAILED"
+                        var responseData = {}
+                        var functionName = event.ResourceProperties.FunctionName
+                        var lambda = new aws.Lambda()
+                        lambda.invoke({ FunctionName: functionName }, function(err, invokeResult) {
+                            if (err) {
+                                responseData = {Error: "Invoke call failed"}
+                                console.log(responseData.Error + ":\n", err)
+                            }
+                            else responseStatus = "SUCCESS"
+                            response.send(event, context, responseStatus, responseData)
+                        })
+                    }
