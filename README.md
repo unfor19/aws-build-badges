@@ -28,6 +28,11 @@ Not using any of the regions above? Go ahead and deploy with a template
 ### Deploy with a template
 Download the cloudformation template [from here](https://aws-build-badges-deployment-bucket.s3-eu-west-1.amazonaws.com/aws_build_badges_cf_template.yml) and upload it manually to a specific region.
 
+## Contributing
+
+<details><summary>Expand/Collapse
+</summary>
+	
 ## Built With
 1. [NodeJS 10.x](https://aws.amazon.com/about-aws/whats-new/2019/05/aws_lambda_adds_support_for_node_js_v10/) - AWS Lambda supports this version of NodeJS
 1. [AWS SDK for JavaScript](https://aws.amazon.com/sdk-for-node-js/) - Upload status badges to S3 bucket, and get commit-id from pipeline
@@ -153,3 +158,5 @@ Done in 193.59s.
 	</tr>		
    </tbody>
 </table>
+
+</details>
